@@ -26,24 +26,24 @@ class BudgetPlannerMapperTest {
     }
 
     @Test
-    public void it_should_return_non_empty_list() {
+    public void it_should_return_non_empty_list() throws ParseException {
         assertFalse( mapper.mapAccounts( accountLines ).isEmpty() );
     }
 
     @Test
-    void it_should_map_to_account_list_with_1_account() {
+    void it_should_map_to_account_list_with_1_account() throws ParseException {
         List<Account> accountList = mapper.mapAccounts( accountLines );
         assertEquals( 1, accountList.size(), "it should have 1 account" );
     }
 
     @Test
-    void it_should_map_to_account_list_with_1_account_with_2_payments() {
+    void it_should_map_to_account_list_with_1_account_with_2_payments() throws ParseException {
         List<Account> accountList = mapper.mapAccounts( accountLines );
         assertEquals( 2, accountList.get( 0 ).getPayments().size(), "account should have 2 payments" );
     }
 
     @Test
-    void it_should_map_line_to_account_object() {
+    void it_should_map_line_to_account_object() throws ParseException {
         Account expectedAccount = new Account( "Jos", "BE69771770897312" );
         Account lineToAccount = mapper.mapDataLineToAccount( testDataLine );
         mapper.mapDataLineToAccount( testDataLine );
@@ -51,16 +51,20 @@ class BudgetPlannerMapperTest {
     }
 
     @Test
-    public void it_should_map_line_to_payment() throws ParseException {
+    public void it_should_map_line_to_payment() throws Exception {
         Payment expectedPayment = new Payment(
-                "BE69771770897312",
+                "BE17795215960626",
                 mapper.convertToDate( "Thu Feb 13 05:47:35 CET 2020" ),
-                256.8f,
+                265.8f,
                 "EUR",
-                "Ut ut necessitatibus itaque ullam"
+                "Ut ut necessitatibus itaque ullam."
         );
 
-        
+        //throw new Exception( "not yet implemented" );
+        //fail("still on it");
+
+        Payment actualPayment = mapper.mapItemsToPayment(testDataLine.split( "," ));
+        assertEquals( expectedPayment, actualPayment );
 
     }
 
