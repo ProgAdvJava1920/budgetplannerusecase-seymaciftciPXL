@@ -1,8 +1,7 @@
 package be.pxl.student.util;
 
-import be.pxl.student.BudgetPlanner;
-import be.pxl.student.entity.Account;
-import be.pxl.student.entity.Payment;
+import be.pxl.student.entity.DomainClass.Account;
+import be.pxl.student.entity.DomainClass.Payment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,7 +63,6 @@ public class BudgetPlannerMapper {
                 items[5],                       //Currency
                 items[6]                        //Detail
         );
-
         //Geen return null gebruiken, maar onderstaande code
         //throw new RuntimeException( "not yet implemented" );
     }

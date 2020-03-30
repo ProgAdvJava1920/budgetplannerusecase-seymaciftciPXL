@@ -1,4 +1,4 @@
-package be.pxl.student.entity;
+package be.pxl.student.entity.JDBC;
 
 import be.pxl.student.entity.DomainClass.Payment;
 import be.pxl.student.entity.ExceptionClass.PaymentException;

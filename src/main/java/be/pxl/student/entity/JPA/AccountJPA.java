@@ -1,51 +1,108 @@
 package be.pxl.student.entity.JPA;
 
-import be.pxl.student.entity.AccountDAO;
 import be.pxl.student.entity.DomainClass.Account;
 import be.pxl.student.entity.ExceptionClass.AccountException;
+import be.pxl.student.entity.JDBC.DAO;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 
 import java.util.List;
 
-public class AccountDaoJPA implements AccountDAO {
+public class AccountJPA implements DAO<Account, AccountException> {
     private String persistenceUnitName = "budgetplanner_pu";
-    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
-    private EntityManager entityManager = entityManagerFactory.createEntityManager();
 
     @Override
     public Account create(Account account) throws AccountException {
-        return super.create( account );
+        EntityManagerFactory entityManagerFactory = null;
+        EntityManager entityManager = null;
+
+        try{
+            entityManagerFactory = Persistence.createEntityManagerFactory( persistenceUnitName );
+            entityManager = entityManagerFactory.createEntityManager();
+            entityManager.getTransaction().begin();
+
+            //id niet meegeven doordat de id autom. genereerd wordt Message message = new Message( 4, "some text4" );
+            Account newAccount = account;
+
+            entityManager.persist( newAccount );
+            entityManager.getTransaction().commit();
+
+            return newAccount;
+        } finally {
+            if(entityManager!= null) entityManager.close();
+            if(entityManagerFactory != null) entityManagerFactory.close();
+        }
     }
 
     @Override
     public Account getById(int id) throws AccountException {
-        return super.getById( id );
+        EntityManagerFactory entityManagerFactory = null;
+        EntityManager entityManager = null;
+        try{
+            entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
+            entityManager = entityManagerFactory.createEntityManager();
+
+            return entityManager.find( Account.class, id );
+
+        } finally {
+            if(entityManager != null) entityManager.close();
+            if(entityManagerFactory != null)entityManagerFactory.close();
+        }
     }
 
     @Override
     public List<Account> getAll() throws AccountException {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction tx = entityManager.getTransaction();
-        tx.begin();
+        EntityManagerFactory entityManagerFactory = null;
+        EntityManager entityManager = null;
+        try{
+            entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
+            entityManager = entityManagerFactory.createEntityManager();
 
-        List<Account> accountList = entityManager.createQuery("select ac from account").getResultList();
-        tx.commit();
-        entityManager.close();
+            return entityManager.createQuery("SELECT ac FROM account", Account.class).getResultList(); // geeft een list terug met Account objecten
 
-        return accountList;
+        } finally {
+            if(entityManager != null) entityManager.close();
+            if(entityManagerFactory != null)entityManagerFactory.close();
+        }
     }
 
     @Override
     public Account update(Account account) throws AccountException {
-        return super.update( account );
+        EntityManagerFactory entityManagerFactory = null;
+        EntityManager entityManager = null;
+        try {
+            entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
+            entityManager = entityManagerFactory.createEntityManager();
+
+            entityManager.getTransaction().begin();
+            entityManager.merge( account );
+            entityManager.getTransaction().commit();
+
+            return account;
+        }
+        finally {
+            if (entityManager != null) entityManager.close();
+            if (entityManagerFactory != null) entityManagerFactory.close();
+        }
     }
 
     @Override
     public Account delete(Account account) throws AccountException {
-        return super.delete( account );
+        EntityManagerFactory entityManagerFactory = null;
+        EntityManager entityManager = null;
+        try {
+            entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
+            entityManager = entityManagerFactory.createEntityManager();
+
+            entityManager.getTransaction().begin();
+            entityManager.remove( account );
+            entityManager.getTransaction().commit();
+
+            return account;
+        }
+        finally {
+            if (entityManager != null) entityManager.close();
+            if (entityManagerFactory != null) entityManagerFactory.close();
+        }
     }
 }

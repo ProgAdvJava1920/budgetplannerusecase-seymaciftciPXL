@@ -1,13 +1,22 @@
-package be.pxl.student.entity;
+package be.pxl.student.entity.DomainClass;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.util.Date;
 import java.util.Objects;
 
+@Entity
 public class Payment {
-
+    @Id
     private int id; //PK
+
+    @OneToOne
     private int accountID; //FK
+
+    @OneToOne
     private int counterAccountID; //FK
+
     private String IBAN;
     private Date date;
     private float amount;

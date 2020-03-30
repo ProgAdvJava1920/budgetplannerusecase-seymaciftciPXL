@@ -1,7 +1,7 @@
 package be.pxl.student.util;
 
-import be.pxl.student.entity.Account;
-import be.pxl.student.entity.Payment;
+import be.pxl.student.entity.DomainClass.Account;
+import be.pxl.student.entity.DomainClass.Payment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

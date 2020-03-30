@@ -1,13 +1,16 @@
-package be.pxl.student.entity;
+package be.pxl.student.entity.DomainClass;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Entity
 public class Account {
 
-    // ...
+    @Id
     private int id;
     private String name;
     private String IBAN;

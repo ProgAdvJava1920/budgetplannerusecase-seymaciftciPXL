@@ -1,6 +1,6 @@
 package be.pxl.student;
 
-import be.pxl.student.entity.Account;
+import be.pxl.student.entity.DomainClass.Account;
 import be.pxl.student.util.BudgetPlannerException;
 import be.pxl.student.util.BudgetPlannerImporter;
 import be.pxl.student.util.BudgetPlannerMapper;
@@ -18,7 +18,7 @@ public class BudgetPlanner {
 
         try {
             logger.info( "Starting import..." );
-            List<String> list =BudgetPlannerImporter.readCsvFile( Paths.get( csvFile ) );
+            List<String> list = BudgetPlannerImporter.readCsvFile( Paths.get( csvFile ) );
             logger.info( "Csv info import done" );
             logger.info( "Starting account mapping" );
             List <Account> accounts = new BudgetPlannerMapper().mapAccounts( list );
@@ -28,7 +28,5 @@ public class BudgetPlanner {
             e.printStackTrace();
             logger.error("exception importing accounts", e);
         }
-
-
     }
 }

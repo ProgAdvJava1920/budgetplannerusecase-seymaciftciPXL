@@ -1,4 +1,4 @@
-package be.pxl.student.entity;
+package be.pxl.student.entity.ExceptionClass;
 
 public class PaymentException extends Exception {
     public PaymentException() {
