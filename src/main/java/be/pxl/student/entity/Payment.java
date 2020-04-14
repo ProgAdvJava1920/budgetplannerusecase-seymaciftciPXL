@@ -1,20 +1,22 @@
-package be.pxl.student.entity.DomainClass;
+package be.pxl.student.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+@NamedQuery( name="payment.findAll", query = "select a from Payment as a")
 @Entity
 public class Payment {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id; //PK
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "accountId")
     private int accountID; //FK
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "counterAccountId")
     private int counterAccountID; //FK
 
     private String IBAN;
@@ -43,7 +45,6 @@ public class Payment {
     }
 
     // GETTER & SETTER VOOR PK MOET NIET
-
 
     public void setId(int id) {
         this.id = id;

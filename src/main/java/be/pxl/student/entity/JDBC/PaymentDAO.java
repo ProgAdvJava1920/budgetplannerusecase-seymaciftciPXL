@@ -1,10 +1,9 @@
 package be.pxl.student.entity.JDBC;
 
-import be.pxl.student.entity.DomainClass.Payment;
+import be.pxl.student.entity.DAO;
+import be.pxl.student.entity.Payment;
 import be.pxl.student.entity.ExceptionClass.PaymentException;
 import be.pxl.student.entity.ExceptionClass.PaymentNotFoundException;
-import be.pxl.student.entity.JDBC.DAO;
-import be.pxl.student.entity.JDBC.DAOManager;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;

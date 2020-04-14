@@ -1,13 +1,14 @@
 package be.pxl.student.entity.JPA;
 
-import be.pxl.student.entity.DomainClass.Payment;
+import be.pxl.student.entity.Payment;
 import be.pxl.student.entity.ExceptionClass.PaymentException;
-import be.pxl.student.entity.JDBC.DAO;
+import be.pxl.student.entity.DAO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
+
 
 public class PaymentJPA implements DAO<Payment, PaymentException> {
     private String persistenceUnitName = "budgetplanner_pu";

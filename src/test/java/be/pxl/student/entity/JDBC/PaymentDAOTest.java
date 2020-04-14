@@ -1,9 +1,7 @@
-package be.pxl.student.entity;
+package be.pxl.student.entity.JDBC;
 
-import be.pxl.student.entity.DomainClass.Payment;
 import be.pxl.student.entity.ExceptionClass.PaymentException;
-import be.pxl.student.entity.JDBC.DAOManager;
-import be.pxl.student.entity.JDBC.PaymentDAO;
+import be.pxl.student.entity.Payment;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

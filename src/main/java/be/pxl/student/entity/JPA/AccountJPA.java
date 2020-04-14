@@ -1,8 +1,9 @@
 package be.pxl.student.entity.JPA;
 
-import be.pxl.student.entity.DomainClass.Account;
+import be.pxl.student.entity.Account;
 import be.pxl.student.entity.ExceptionClass.AccountException;
-import be.pxl.student.entity.JDBC.DAO;
+import be.pxl.student.entity.DAO;
+import org.hibernate.cfg.NotYetImplementedException;
 
 import javax.persistence.*;
 
@@ -10,10 +11,15 @@ import java.util.List;
 
 public class AccountJPA implements DAO<Account, AccountException> {
     private String persistenceUnitName = "budgetplanner_pu";
+    EntityManager entitymanager;
+
+    public AccountJPA(EntityManager entitymanager) {
+        this.entitymanager = entitymanager;
+    }
 
     @Override
     public Account create(Account account) throws AccountException {
-        EntityManagerFactory entityManagerFactory = null;
+        /*EntityManagerFactory entityManagerFactory = null;
         EntityManager entityManager = null;
 
         try{
@@ -31,39 +37,19 @@ public class AccountJPA implements DAO<Account, AccountException> {
         } finally {
             if(entityManager!= null) entityManager.close();
             if(entityManagerFactory != null) entityManagerFactory.close();
-        }
+        }*/
+        throw new NotYetImplementedException(  );
     }
 
     @Override
     public Account getById(int id) throws AccountException {
-        EntityManagerFactory entityManagerFactory = null;
-        EntityManager entityManager = null;
-        try{
-            entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
-            entityManager = entityManagerFactory.createEntityManager();
-
-            return entityManager.find( Account.class, id );
-
-        } finally {
-            if(entityManager != null) entityManager.close();
-            if(entityManagerFactory != null)entityManagerFactory.close();
-        }
+        return entitymanager.find( Account.class, id );
     }
 
     @Override
     public List<Account> getAll() throws AccountException {
-        EntityManagerFactory entityManagerFactory = null;
-        EntityManager entityManager = null;
-        try{
-            entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
-            entityManager = entityManagerFactory.createEntityManager();
-
-            return entityManager.createQuery("SELECT ac FROM account", Account.class).getResultList(); // geeft een list terug met Account objecten
-
-        } finally {
-            if(entityManager != null) entityManager.close();
-            if(entityManagerFactory != null)entityManagerFactory.close();
-        }
+        TypedQuery<Account> query = entitymanager.createNamedQuery( "findAll", Account.class );
+        return query.getResultList();
     }
 
     @Override
@@ -71,7 +57,7 @@ public class AccountJPA implements DAO<Account, AccountException> {
         EntityManagerFactory entityManagerFactory = null;
         EntityManager entityManager = null;
         try {
-            entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
+            entityManagerFactory = Persistence.createEntityManagerFactory( persistenceUnitName );
             entityManager = entityManagerFactory.createEntityManager();
 
             entityManager.getTransaction().begin();
@@ -79,8 +65,7 @@ public class AccountJPA implements DAO<Account, AccountException> {
             entityManager.getTransaction().commit();
 
             return account;
-        }
-        finally {
+        } finally {
             if (entityManager != null) entityManager.close();
             if (entityManagerFactory != null) entityManagerFactory.close();
         }
@@ -88,21 +73,8 @@ public class AccountJPA implements DAO<Account, AccountException> {
 
     @Override
     public Account delete(Account account) throws AccountException {
-        EntityManagerFactory entityManagerFactory = null;
-        EntityManager entityManager = null;
-        try {
-            entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
-            entityManager = entityManagerFactory.createEntityManager();
-
-            entityManager.getTransaction().begin();
-            entityManager.remove( account );
-            entityManager.getTransaction().commit();
-
-            return account;
-        }
-        finally {
-            if (entityManager != null) entityManager.close();
-            if (entityManagerFactory != null) entityManagerFactory.close();
-        }
+        Account attachedAccount = entitymanager.find( Account.class, account.getId() );
+        entitymanager.remove( attachedAccount );
+        return attachedAccount;
     }
 }

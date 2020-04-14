@@ -1,19 +1,22 @@
-package be.pxl.student.entity.DomainClass;
+package be.pxl.student.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@NamedQuery( name="account.findAll", query = "select a from Account as a")
 @Entity
 public class Account {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String IBAN;
+    //@Transient //voorlopig
+    @OneToMany(mappedBy = "account")
     private List<Payment> payments = new ArrayList<>();
 
     public Account() {

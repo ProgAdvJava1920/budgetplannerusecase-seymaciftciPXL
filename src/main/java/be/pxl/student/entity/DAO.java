@@ -1,4 +1,4 @@
-package be.pxl.student.entity.JDBC;
+package be.pxl.student.entity;
 
 import java.util.List;
 
